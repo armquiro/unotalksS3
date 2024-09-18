@@ -1,0 +1,20 @@
+#version: "3.8"
+
+services:
+  localstack:
+    container_name: localstack-unoTalks
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"            # LocalStack Gateway
+      - "8082:8082"  # external services port range
+    environment:
+      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
+      - SERVICES=s3:4566
+      - HOSTNAME_EXTERNAL:localhost
+      #- DEBUG=1
+      - PORT_WEB_UI:8082
+      - AWS_DEFAULT_REGION:us-east-1
+      - AWS_ACCESS_KEY_ID:test
+      - AWS_SECRET_ACCESS_KEY:test
+    volumes:
+      - ./localstack/:/docker-entrypoint-initaws.d/
