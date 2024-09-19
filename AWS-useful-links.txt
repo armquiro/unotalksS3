@@ -1,0 +1,9 @@
+
+
+https://www.tecracer.com/blog/2023/01/what-are-the-folders-in-the-s3-console.html
+
+https://vikramatc.medium.com/localstack-for-local-development-java-377b0fe0d627
+
+https://docs.aws.amazon.com/es_es/cli/latest/userguide/cli-services-s3-commands.html
+
+https://www.localstack.cloud/
