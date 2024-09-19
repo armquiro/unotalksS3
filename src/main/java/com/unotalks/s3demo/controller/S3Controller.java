@@ -30,10 +30,18 @@ public class S3Controller {
         return ResponseEntity.ok(buckets);
     }
 
-    @PutMapping(produces = {"application/json"})
-    public ResponseEntity<String> putObject(@RequestParam String bucketName){
+    @PutMapping(value= "simple", produces = {"application/json"})
+    public ResponseEntity<String> putSimpleObject(@RequestParam String bucketName){
 
-        String result = s3Service.putObject(bucketName);
+        String result = s3Service.putSimpleObject(bucketName);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping(value= "file", produces = {"application/json"})
+    public ResponseEntity<String> putFileObject(@RequestParam String bucketName){
+
+        String result = s3Service.putFileObject(bucketName);
 
         return ResponseEntity.ok(result);
     }

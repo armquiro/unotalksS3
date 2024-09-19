@@ -1,0 +1,15 @@
+meta {
+  name: Put Simple Object
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8080/localstack/simple?bucketName=examplebucket8
+  body: none
+  auth: none
+}
+
+params:query {
+  bucketName: examplebucket8
+}

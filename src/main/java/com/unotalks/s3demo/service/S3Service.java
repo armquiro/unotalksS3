@@ -1,29 +1,19 @@
 package com.unotalks.s3demo.service;
 
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.Protocol;
 import com.amazonaws.SdkClientException;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.BasicSessionCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.S3ClientOptions;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.Bucket;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +45,7 @@ public class S3Service {
             return bucketList;
     }
 
-    public String putObject(String bucketName){
+    public String putSimpleObject(String bucketName){
         String result = "";
         try {
 
@@ -64,23 +54,32 @@ public class S3Service {
             // Upload a text string as a new object.
             s3.putObject(bucketName, stringObjKeyName, "Uploaded String Object");
             result = "success";
-            /*
+        } catch (SdkClientException e) {
+            result = e.getMessage();
+        }
+        return result;
+    }
+
+    public String putFileObject(String bucketName){
+        String result = "";
+        try {
+
+            String fileName = "*** String object key name ***";
+            String fileObjKeyName = "*** File object key name ***";
+
+            //File fileToUpload = new File("user.json");
+            File fileToUpload = ResourceUtils.getFile("classpath:user.json");
+
+
             // Upload a file as a new object with ContentType and title specified.
-            PutObjectRequest request = new PutObjectRequest(bucketName, fileObjKeyName, new File(fileName));
+            PutObjectRequest request = new PutObjectRequest(bucketName, fileToUpload.getName(), fileToUpload);
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType("plain/text");
             metadata.addUserMetadata("title", "someTitle");
             request.setMetadata(metadata);
-            s3.putObject(request);*/
-        } catch (AmazonServiceException e) {
-            // The call was transmitted successfully, but Amazon S3 couldn't process
-            // it, so it returned an error response.
-            //e.printStackTrace();
-            result = e.getMessage();
-        } catch (SdkClientException e) {
-            // Amazon S3 couldn't be contacted for a response, or the client
-            // couldn't parse the response from Amazon S3.
-            //e.printStackTrace();
+            s3.putObject(request);
+            result = "success";
+        } catch (SdkClientException | FileNotFoundException e) {
             result = e.getMessage();
         }
         return result;
