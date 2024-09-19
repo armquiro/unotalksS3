@@ -1,0 +1,9 @@
+AWS Commands
+
+aws --endpoint-url=http://localhost:4566 s3 mb s3://mytestbucket
+
+aws --endpoint-url=http://localhost:4566 s3 ls
+
+aws --endpoint-url=http://localhost:4566 s3 ls s3://mytestbucket
+
+aws --endpoint-url=http://localhost:4566 s3 cp s3://examplebucket8/user.json .

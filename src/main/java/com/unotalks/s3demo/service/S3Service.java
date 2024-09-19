@@ -63,18 +63,12 @@ public class S3Service {
     public String putFileObject(String bucketName){
         String result = "";
         try {
+            String fileName = "classpath:user.json";
+            File fileToUpload = ResourceUtils.getFile(fileName);
 
-            String fileName = "*** String object key name ***";
-            String fileObjKeyName = "*** File object key name ***";
-
-            //File fileToUpload = new File("user.json");
-            File fileToUpload = ResourceUtils.getFile("classpath:user.json");
-
-
-            // Upload a file as a new object with ContentType and title specified.
             PutObjectRequest request = new PutObjectRequest(bucketName, fileToUpload.getName(), fileToUpload);
             ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentType("plain/text");
+            metadata.setContentType("application/json");
             metadata.addUserMetadata("title", "someTitle");
             request.setMetadata(metadata);
             s3.putObject(request);
